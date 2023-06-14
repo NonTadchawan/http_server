@@ -20,7 +20,8 @@ public class Server {
             Socket socket = serverSocket.accept();
             System.out.println("accept 1");
             new Thread(()->{
-                try{
+                try( BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))){
                     Class<?> myClass = Class.forName("servlet.MyServlet");
                     if(!servletMap.containsKey(myClass)){
                         Constructor<?> constructor = myClass.getConstructor();
